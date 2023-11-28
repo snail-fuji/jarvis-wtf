@@ -4,7 +4,11 @@ from decouple import config
 from datetime import datetime
 from openai import OpenAI
 
-engine = pyttsx3.init('nsss')
+
+engine = pyttsx3.init('nsss') ## Mac OS
+# engine = pyttsx3.init('sapi5') ## Windows
+
+
 engine.setProperty('volume', 1.0)
 engine.setProperty('voice', engine.getProperty('voices')[int(config('VOICE'))])
 
