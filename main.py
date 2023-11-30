@@ -48,15 +48,17 @@ def greet_user():
 
 def recognize(audio):
     global clientOpenAI
-    with open("/tmp/audio.mp3", "wb") as file:
-        file.write(audio_data.get_wav_data())
-    audio_file = open('/tmp/audio.mp3', 'rb')
+    with open("/tmp/audio.wav", "wb") as file:
+        file.write(audio.get_wav_data())
+
+    audio_file = open('/tmp/audio.wav', 'rb')
     transcript = clientOpenAI.audio.transcriptions.create(
         model="whisper-1", 
         file=audio_file
     )
     audio_file.close()
-    return transcript
+
+    return transcript.text
 
 
 def take_user_input():
