@@ -50,11 +50,13 @@ def speak_sentence(text):
 
 def speak(text):
     sentences = sent_tokenize(text)
+    print(sentences)
 
     for i, sentence in enumerate(sentences):
         try:
-            speak_sentence(sentence.strip(), i == (len(sentences) - 1))
-        except:
+            speak_sentence(sentence.strip())
+        except Exception as e:
+            print(e)
             sleep(0.1)
 
 
