@@ -11,9 +11,12 @@ nltk.download('punkt')
 
 from nltk.tokenize import sent_tokenize
 
+OPEN_AI_API_KEY = config('OPEN_AI_API_KEY')
+BOTNAME = config('BOTNAME')
+SILENCE_SECONDS = int(config('SILENCE_SECONDS'))
 
 pygame.mixer.init()
-client_open_ai = OpenAI(api_key=config('OPEN_AI_API_KEY'))
+client_open_ai = OpenAI(api_key=OPEN_AI_API_KEY)
 chat_messages = [
     {
         "role": "system", 
@@ -56,7 +59,7 @@ def speak(text):
 
 
 def greet_user():
-    speak(f"I am {config('BOTNAME')}. How can I help you today?")
+    speak(f"I am {BOTNAME}. How can I help you today?")
 
 
 def recognize(audio):
@@ -88,7 +91,7 @@ def take_user_input():
 
         print('\007')
         print('Listening....')
-        r.pause_threshold = 2
+        r.pause_threshold = SILENCE_SECONDS
         audio = r.listen(source)
 
     try:

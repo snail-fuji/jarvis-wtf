@@ -1,0 +1,5 @@
+SpeechRecognition==3.10.1
+python-decouple==3.4
+openai==1.8.0
+pygame==2.5.2
+nltk==3.8.1
