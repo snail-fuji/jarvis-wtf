@@ -30,6 +30,15 @@ chat_messages = [
     }
 ]
 
+r = sr.Recognizer()
+mic = sr.Microphone()
+
+r.pause_threshold = SILENCE_SECONDS
+
+with mic as source:
+    print('Calibrating...')
+    r.adjust_for_ambient_noise(source, duration=10)
+r.dynamic_energy_threshold = False
 
 def speak_sentence(text):
     global client_open_ai
@@ -49,6 +58,7 @@ def speak_sentence(text):
 
 
 def speak(text):
+    text = text.replace('\n', '. ')
     sentences = sent_tokenize(text)
     print(sentences)
 
@@ -80,6 +90,8 @@ def recognize(audio):
 
 
 def take_user_input():
+    global r, mic
+
     while pygame.mixer.music.get_busy():
         sleep(0.1)
     sleep(0.1)
@@ -88,12 +100,8 @@ def take_user_input():
     mic = sr.Microphone()
 
     with mic as source:
-        print('Calibrating...')
-        r.adjust_for_ambient_noise(source)
-
         print('\007')
         print('Listening....')
-        r.pause_threshold = SILENCE_SECONDS
         audio = r.listen(source)
 
     try:
