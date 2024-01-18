@@ -26,6 +26,7 @@ chat_messages = [
             which will be read in less than 3-5 seconds 
             until not asked for a precise answer. 
             Refer to the question parts in case if the question is related to a new topic.
+            The transcription is wrong sometimes (for instance, for proper nouns or cutoffs) - try to fix errors from the context or clarify
         """
     }
 ]
@@ -35,10 +36,10 @@ mic = sr.Microphone()
 
 r.pause_threshold = SILENCE_SECONDS
 
-with mic as source:
-    print('Calibrating...')
-    r.adjust_for_ambient_noise(source, duration=10)
-r.dynamic_energy_threshold = False
+# with mic as source:
+#     print('Calibrating...')
+#     r.adjust_for_ambient_noise(source, duration=10)
+#     # r.dynamic_energy_threshold = False
 
 def speak_sentence(text):
     global client_open_ai
@@ -96,10 +97,13 @@ def take_user_input():
         sleep(0.1)
     sleep(0.1)
 
-    r = sr.Recognizer()
-    mic = sr.Microphone()
+    # r = sr.Recognizer()
+    # mic = sr.Microphone()
 
     with mic as source:
+        r.adjust_for_ambient_noise(source, duration=1)
+        r.dynamic_energy_threshold = False
+        r.energy_threshold *= 2
         print('\007')
         print('Listening....')
         audio = r.listen(source)
